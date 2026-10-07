@@ -100,7 +100,7 @@ textarea{resize:vertical;min-height:80px}
 
   <!-- ENTRAR -->
   <section class="entrar" id="tela-entrar" hidden>
-    <h2>Entrar no painel</h2>
+    <h2 id="titulo-entrar">Entrar no painel</h2>
     <p class="sub">Digite seu e-mail. Mandamos um link — você clica e entra, sem senha.</p>
     <form id="form-entrar">
       <div>
@@ -446,9 +446,14 @@ textarea{resize:vertical;min-height:80px}
   });
 
   /* ---------- carregar ---------- */
+  function travarEdicao() {
+    $('#tela-painel').querySelectorAll('input, textarea, select, button').forEach((c) => { c.disabled = true; });
+  }
+
   async function carregar(sessao) {
-    $('#quem').textContent = sessao.user.email;
-    $('#sair').hidden = false;
+    const logado = !!sessao;
+    $('#quem').textContent = logado ? sessao.user.email : 'Modo visualização — entre para poder editar';
+    $('#sair').hidden = !logado;
 
     const r = await sb.from('sites').select('*').limit(1).maybeSingle();
     if (r.error) { falhou(r.error, 'carregar o site'); return; }
@@ -472,20 +477,22 @@ textarea{resize:vertical;min-height:80px}
 
     $('#carregando').hidden = true;
     $('#tela-painel').hidden = false;
+
+    if (!logado) {
+      travarEdicao();
+      $('#titulo-entrar').textContent = 'Para alterar, entre primeiro';
+      $('#tela-entrar').style.margin = '0 auto 34px';
+      $('#tela-entrar').hidden = false;
+    }
   }
 
   async function iniciar() {
     const { data } = await sb.auth.getSession();
-    if (data.session) { await carregar(data.session); }
-    else { $('#carregando').hidden = true; $('#tela-entrar').hidden = false; }
+    await carregar(data.session || null);
   }
 
   sb.auth.onAuthStateChange((evento, sessao) => {
-    if (evento === 'SIGNED_IN' && sessao && $('#tela-painel').hidden) {
-      $('#tela-entrar').hidden = true;
-      $('#carregando').hidden = false;
-      carregar(sessao);
-    }
+    if (evento === 'SIGNED_IN' && sessao) location.reload();
   });
 
   iniciar();
