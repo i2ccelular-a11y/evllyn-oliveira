@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Painel · Studio Evllyn Oliveira</title>
+<style>
+@font-face{font-family:Montserrat;src:url(../assets/fonts/montserrat-latin-400-normal.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Montserrat;src:url(../assets/fonts/montserrat-latin-500-normal.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Montserrat;src:url(../assets/fonts/montserrat-latin-600-normal.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:'Cormorant Garamond';src:url(../assets/fonts/cormorant-garamond-latin-600-normal.woff2) format('woff2');font-weight:600;font-display:swap}
+
+:root{
+  --bg:#faf9f5; --surface:#fff; --ink:#141413; --ink-2:#6f6557;
+  --line:#e4ddcf; --line-2:#cfc3ad; --gold:#9a7634; --gold-soft:#cbb183;
+  --ok:#2f6b46; --erro:#9b2c2c; --aviso:#8a5a1b;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.6 Montserrat,-apple-system,BlinkMacSystemFont,sans-serif}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px 80px}
+h1{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:1.9rem;margin:0;line-height:1.1}
+h2{font-size:1rem;font-weight:600;margin:0 0 4px}
+p{margin:0 0 12px}
+.sub{color:var(--ink-2);font-size:.9rem;margin:4px 0 0}
+[hidden]{display:none!important}
+
+header{border-bottom:1px solid var(--line);margin-bottom:22px}
+.head{max-width:720px;margin:0 auto;padding:22px 18px 18px;display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.head div{margin-right:auto}
+
+button{font:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--gold);background:var(--gold);color:#fffaf2;
+     font-size:.8rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:11px 18px;border-radius:3px;
+     transition:background .2s,color .2s}
+.btn:hover:not(:disabled){background:transparent;color:var(--gold)}
+.btn:disabled{opacity:.5;cursor:progress}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn.ghost:hover:not(:disabled){border-color:var(--gold);color:var(--gold)}
+.btn.sm{padding:7px 12px;font-size:.7rem}
+.btn.perigo{border-color:var(--erro);color:var(--erro);background:transparent}
+.btn.perigo:hover:not(:disabled){background:var(--erro);color:#fff}
+
+input,textarea,select{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line-2);border-radius:3px;background:var(--surface);color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--gold-soft);outline-offset:1px;border-color:var(--gold)}
+label{display:block;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin-bottom:5px}
+textarea{resize:vertical;min-height:80px}
+
+.abas{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:22px}
+.abas button{border:0;background:transparent;padding:11px 14px;font-size:.82rem;font-weight:500;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px}
+.abas button[aria-selected=true]{color:var(--gold);border-bottom-color:var(--gold);font-weight:600}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;margin-bottom:12px}
+.linha{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start}
+.campos{display:grid;gap:10px;min-width:0}
+.acoes{display:flex;flex-direction:column;gap:6px}
+@media (max-width:560px){.linha{grid-template-columns:1fr}.acoes{flex-direction:row;flex-wrap:wrap}}
+
+.dia{display:grid;grid-template-columns:110px 1fr 1fr auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.dia:last-child{border-bottom:0}
+.dia .nome{font-weight:500;font-size:.9rem}
+.dia label.chk{display:flex;align-items:center;gap:6px;font-size:.72rem;margin:0;white-space:nowrap}
+.dia input[type=checkbox]{width:auto;accent-color:var(--gold)}
+@media (max-width:560px){.dia{grid-template-columns:1fr 1fr;gap:8px}.dia .nome{grid-column:1/-1}}
+
+.fotos{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.foto{position:relative;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--surface)}
+.foto img{display:block;width:100%;aspect-ratio:1;object-fit:cover}
+.foto .rm{position:absolute;top:6px;right:6px;border:0;border-radius:50%;width:28px;height:28px;background:rgba(20,20,19,.75);color:#fff;font-size:15px;line-height:1}
+
+.aviso{border-left:3px solid var(--aviso);background:#fdf6ea;padding:12px 14px;font-size:.88rem;border-radius:0 3px 3px 0;margin-bottom:16px}
+.vazio{color:var(--ink-2);font-size:.9rem;padding:18px 0}
+
+#recado{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(140%);background:var(--ink);color:var(--bg);
+        padding:12px 20px;border-radius:999px;font-size:.85rem;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);transition:transform .25s;z-index:50;max-width:92vw;text-align:center}
+#recado.mostra{transform:translateX(-50%) translateY(0)}
+#recado.erro{background:var(--erro)}
+#recado.ok{background:var(--ok)}
+
+.entrar{max-width:380px;margin:60px auto;text-align:center}
+.entrar form{display:grid;gap:12px;margin-top:20px;text-align:left}
+.rodape-acao{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head">
+    <div>
+      <h1>Painel do site</h1>
+      <p class="sub" id="quem"></p>
+    </div>
+    <button class="btn ghost sm" id="sair" hidden type="button">Sair</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ENTRAR -->
+  <section class="entrar" id="tela-entrar" hidden>
+    <h2>Entrar no painel</h2>
+    <p class="sub">Digite seu e-mail. Mandamos um link — você clica e entra, sem senha.</p>
+    <form id="form-entrar">
+      <div>
+        <label for="email">Seu e-mail</label>
+        <input type="email" id="email" required autocomplete="email" placeholder="voce@exemplo.com">
+      </div>
+      <button class="btn" type="submit" id="btn-entrar">Receber link de acesso</button>
+    </form>
+  </section>
+
+  <!-- CARREGANDO -->
+  <p id="carregando" class="vazio">Carregando…</p>
+
+  <!-- PAINEL -->
+  <main id="tela-painel" hidden>
+    <div class="abas" role="tablist">
+      <button role="tab" data-aba="servicos" aria-selected="true">Serviços</button>
+      <button role="tab" data-aba="horarios" aria-selected="false">Horários</button>
+      <button role="tab" data-aba="textos" aria-selected="false">Textos</button>
+      <button role="tab" data-aba="fotos" aria-selected="false">Fotos</button>
+    </div>
+
+    <section id="aba-servicos">
+      <p class="sub" style="margin-bottom:16px">Os serviços que aparecem no seu site. Deixe o preço em branco para mostrar “sob consulta”.</p>
+      <div id="lista-servicos"></div>
+      <button class="btn ghost" type="button" id="novo-servico">+ Novo serviço</button>
+    </section>
+
+    <section id="aba-horarios" hidden>
+      <p class="sub" style="margin-bottom:16px">Marque “fechado” nos dias que não atende. Deixe em branco o que ainda não souber.</p>
+      <div class="card" id="lista-horarios"></div>
+      <button class="btn" type="button" id="salvar-horarios">Salvar horários</button>
+    </section>
+
+    <section id="aba-textos" hidden>
+      <p class="sub" style="margin-bottom:16px">Os textos do site. Mudanças aqui aparecem para quem visitar.</p>
+      <div id="lista-textos"></div>
+      <button class="btn" type="button" id="salvar-textos">Salvar textos</button>
+    </section>
+
+    <section id="aba-fotos" hidden>
+      <p class="sub" style="margin-bottom:16px">Fotos dos seus trabalhos. Escolha do celular e pronto — até 8 MB cada.</p>
+      <div class="rodape-acao" style="margin-top:0;margin-bottom:16px">
+        <input type="file" id="arquivo" accept="image/*" multiple hidden>
+        <button class="btn" type="button" id="enviar-foto">+ Enviar fotos</button>
+      </div>
+      <div class="fotos" id="lista-fotos"></div>
+    </section>
+  </main>
+</div>
+
+<div id="recado" role="status" aria-live="polite"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+(() => {
+  const URL_SUPABASE = 'https://cvarrnzqhllnwmeklwvw.supabase.co';
+  const CHAVE = 'sb_publishable_XBOInLxKDVj9JIUc5Yxu9A_qGA0Fdvg';
+  const BUCKET = 'sites-fotos';
+  const DIAS = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+
+  const sb = window.supabase.createClient(URL_SUPABASE, CHAVE);
+  const $ = (s) => document.querySelector(s);
+  const el = (t, props = {}) => Object.assign(document.createElement(t), props);
+
+  let site = null;          // linha de public.sites
+  let servicos = [];
+  let horarios = [];
+  let textos = [];
+  let fotos = [];
+
+  /* ---------- recados ---------- */
+  let tRecado;
+  function recado(texto, tipo = '') {
+    const r = $('#recado');
+    r.textContent = texto;
+    r.className = 'mostra ' + tipo;
+    clearTimeout(tRecado);
+    tRecado = setTimeout(() => { r.className = ''; }, 3800);
+  }
+  function falhou(e, oque) {
+    console.error(oque, e);
+    const msg = (e && e.message) || '';
+    if (/row-level security|permission|policy/i.test(msg)) {
+      recado('Você não tem permissão para editar este site.', 'erro');
+    } else {
+      recado('Não consegui ' + oque + '. ' + (msg || 'Tente de novo.'), 'erro');
+    }
+  }
+
+  /* ---------- entrar / sair ---------- */
+  $('#form-entrar').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const b = $('#btn-entrar');
+    b.disabled = true;
+    try {
+      const { error } = await sb.auth.signInWithOtp({
+        email: $('#email').value.trim(),
+        options: { emailRedirectTo: location.href.split('#')[0] }
+      });
+      if (error) throw error;
+      recado('Link enviado. Confira seu e-mail (e a caixa de spam).', 'ok');
+    } catch (e) {
+      falhou(e, 'enviar o link');
+    } finally {
+      b.disabled = false;
+    }
+  });
+
+  $('#sair').addEventListener('click', async () => {
+    await sb.auth.signOut();
+    location.reload();
+  });
+
+  /* ---------- abas ---------- */
+  document.querySelectorAll('.abas button').forEach((b) => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.abas button').forEach((o) => o.setAttribute('aria-selected', String(o === b)));
+      ['servicos','horarios','textos','fotos'].forEach((n) => {
+        $('#aba-' + n).hidden = (n !== b.dataset.aba);
+      });
+    });
+  });
+
+  /* ---------- servicos ---------- */
+  function precoParaTexto(c) { return (c === null || c === undefined) ? '' : (c / 100).toFixed(2).replace('.', ','); }
+  function textoParaPreco(t) {
+    const limpo = String(t).replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
+    if (limpo.trim() === '') return null;
+    const n = Math.round(parseFloat(limpo) * 100);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  }
+
+  function desenhaServicos() {
+    const alvo = $('#lista-servicos');
+    alvo.textContent = '';
+    if (!servicos.length) alvo.append(el('p', { className: 'vazio', textContent: 'Nenhum serviço ainda. Use o botão abaixo.' }));
+    servicos.forEach((s) => {
+      const card = el('div', { className: 'card' });
+      const linha = el('div', { className: 'linha' });
+      const campos = el('div', { className: 'campos' });
+
+      const lblNome = el('label', { textContent: 'Nome' });
+      const inNome = el('input', { value: s.nome || '' });
+      const lblDesc = el('label', { textContent: 'Descrição' });
+      const inDesc = el('textarea', { value: s.descricao || '' });
+      const lblPreco = el('label', { textContent: 'Preço em reais (vazio = sob consulta)' });
+      const inPreco = el('input', { value: precoParaTexto(s.preco_centavos), inputMode: 'decimal', placeholder: 'ex.: 45,00' });
+
+      campos.append(lblNome, inNome, lblDesc, inDesc, lblPreco, inPreco);
+
+      const acoes = el('div', { className: 'acoes' });
+      const bSalvar = el('button', { className: 'btn sm', type: 'button', textContent: 'Salvar' });
+      const bApagar = el('button', { className: 'btn sm perigo', type: 'button', textContent: 'Apagar' });
+
+      bSalvar.addEventListener('click', async () => {
+        bSalvar.disabled = true;
+        const dados = {
+          nome: inNome.value.trim(),
+          descricao: inDesc.value.trim() || null,
+          preco_centavos: textoParaPreco(inPreco.value)
+        };
+        if (!dados.nome) { recado('O serviço precisa de um nome.', 'erro'); bSalvar.disabled = false; return; }
+        try {
+          if (s.id) {
+            const { error } = await sb.from('site_servicos').update(dados).eq('id', s.id);
+            if (error) throw error;
+          } else {
+            const { data, error } = await sb.from('site_servicos')
+              .insert({ ...dados, site_id: site.id, workspace_id: site.workspace_id, ordem: servicos.length })
+              .select().single();
+            if (error) throw error;
+            s.id = data.id;
+          }
+          Object.assign(s, dados);
+          recado('Serviço salvo.', 'ok');
+        } catch (e) { falhou(e, 'salvar o serviço'); }
+        finally { bSalvar.disabled = false; }
+      });
+
+      bApagar.addEventListener('click', async () => {
+        if (!confirm('Apagar "' + (s.nome || 'este serviço') + '"?')) return;
+        try {
+          if (s.id) {
+            const { error } = await sb.from('site_servicos').delete().eq('id', s.id);
+            if (error) throw error;
+          }
+          servicos = servicos.filter((o) => o !== s);
+          desenhaServicos();
+          recado('Serviço apagado.', 'ok');
+        } catch (e) { falhou(e, 'apagar o serviço'); }
+      });
+
+      acoes.append(bSalvar, bApagar);
+      linha.append(campos, acoes);
+      card.append(linha);
+      alvo.append(card);
+    });
+  }
+
+  $('#novo-servico').addEventListener('click', () => {
+    servicos.push({ id: null, nome: '', descricao: '', preco_centavos: null });
+    desenhaServicos();
+  });
+
+  /* ---------- horarios ---------- */
+  function desenhaHorarios() {
+    const alvo = $('#lista-horarios');
+    alvo.textContent = '';
+    horarios.sort((a, b) => a.dia_semana - b.dia_semana).forEach((h) => {
+      const linha = el('div', { className: 'dia' });
+      const nome = el('div', { className: 'nome', textContent: DIAS[h.dia_semana] });
+      const abre = el('input', { type: 'time', value: h.abre ? h.abre.slice(0, 5) : '' });
+      const fecha = el('input', { type: 'time', value: h.fecha ? h.fecha.slice(0, 5) : '' });
+      const lbl = el('label', { className: 'chk' });
+      const chk = el('input', { type: 'checkbox', checked: !!h.fechado });
+      lbl.append(chk, document.createTextNode('Fechado'));
+
+      const aplica = () => { abre.disabled = chk.checked; fecha.disabled = chk.checked; };
+      chk.addEventListener('change', aplica); aplica();
+
+      h._campos = { abre, fecha, chk };
+      linha.append(nome, abre, fecha, lbl);
+      alvo.append(linha);
+    });
+  }
+
+  $('#salvar-horarios').addEventListener('click', async () => {
+    const b = $('#salvar-horarios'); b.disabled = true;
+    try {
+      for (const h of horarios) {
+        const c = h._campos;
+        const { error } = await sb.from('site_horarios').update({
+          abre: c.chk.checked ? null : (c.abre.value || null),
+          fecha: c.chk.checked ? null : (c.fecha.value || null),
+          fechado: c.chk.checked
+        }).eq('id', h.id);
+        if (error) throw error;
+      }
+      recado('Horários salvos.', 'ok');
+    } catch (e) { falhou(e, 'salvar os horários'); }
+    finally { b.disabled = false; }
+  });
+
+  /* ---------- textos ---------- */
+  const ROTULOS = {
+    titulo_home: 'Título da página inicial',
+    subtitulo_home: 'Subtítulo',
+    especialidades: 'Especialidades',
+    frase_marca: 'Frase da marca',
+    endereco: 'Endereço',
+    whatsapp: 'WhatsApp (só números, com DDD e 55)',
+    instagram: 'Instagram (sem o @)',
+    horario_atendimento: 'Horário de atendimento (texto livre)'
+  };
+
+  function desenhaTextos() {
+    const alvo = $('#lista-textos');
+    alvo.textContent = '';
+    textos.forEach((t) => {
+      const card = el('div', { className: 'card' });
+      const lbl = el('label', { textContent: ROTULOS[t.chave] || t.chave });
+      const campo = (t.valor && t.valor.length > 60)
+        ? el('textarea', { value: t.valor })
+        : el('input', { value: t.valor || '' });
+      t._campo = campo;
+      card.append(lbl, campo);
+      alvo.append(card);
+    });
+  }
+
+  $('#salvar-textos').addEventListener('click', async () => {
+    const b = $('#salvar-textos'); b.disabled = true;
+    try {
+      for (const t of textos) {
+        if (t._campo.value === t.valor) continue;
+        const { error } = await sb.from('site_textos').update({ valor: t._campo.value }).eq('id', t.id);
+        if (error) throw error;
+        t.valor = t._campo.value;
+      }
+      recado('Textos salvos.', 'ok');
+    } catch (e) { falhou(e, 'salvar os textos'); }
+    finally { b.disabled = false; }
+  });
+
+  /* ---------- fotos ---------- */
+  function urlPublica(caminho) {
+    if (caminho.startsWith('assets/')) return '../' + caminho;
+    return sb.storage.from(BUCKET).getPublicUrl(caminho).data.publicUrl;
+  }
+
+  function desenhaFotos() {
+    const alvo = $('#lista-fotos');
+    alvo.textContent = '';
+    if (!fotos.length) {
+      alvo.append(el('p', { className: 'vazio', textContent: 'Nenhuma foto enviada por aqui ainda.' }));
+      return;
+    }
+    fotos.forEach((f) => {
+      const box = el('div', { className: 'foto' });
+      const img = el('img', { src: urlPublica(f.caminho), alt: f.alt || '', loading: 'lazy' });
+      const rm = el('button', { className: 'rm', type: 'button', title: 'Remover', textContent: '×' });
+      rm.addEventListener('click', async () => {
+        if (!confirm('Remover esta foto do site?')) return;
+        try {
+          const { error } = await sb.from('site_fotos').delete().eq('id', f.id);
+          if (error) throw error;
+          if (!f.caminho.startsWith('assets/')) await sb.storage.from(BUCKET).remove([f.caminho]);
+          fotos = fotos.filter((o) => o !== f);
+          desenhaFotos();
+          recado('Foto removida.', 'ok');
+        } catch (e) { falhou(e, 'remover a foto'); }
+      });
+      box.append(img, rm);
+      alvo.append(box);
+    });
+  }
+
+  $('#enviar-foto').addEventListener('click', () => $('#arquivo').click());
+
+  $('#arquivo').addEventListener('change', async (ev) => {
+    const lista = [...ev.target.files];
+    if (!lista.length) return;
+    const b = $('#enviar-foto'); b.disabled = true;
+    let ok = 0;
+    for (const arquivo of lista) {
+      try {
+        const ext = (arquivo.name.split('.').pop() || 'jpg').toLowerCase();
+        const caminho = site.workspace_id + '/' + crypto.randomUUID() + '.' + ext;
+        const up = await sb.storage.from(BUCKET).upload(caminho, arquivo, { contentType: arquivo.type });
+        if (up.error) throw up.error;
+        const { data, error } = await sb.from('site_fotos')
+          .insert({ site_id: site.id, workspace_id: site.workspace_id, caminho, ordem: fotos.length + ok })
+          .select().single();
+        if (error) throw error;
+        fotos.push(data);
+        ok++;
+      } catch (e) { falhou(e, 'enviar "' + arquivo.name + '"'); }
+    }
+    ev.target.value = '';
+    b.disabled = false;
+    if (ok) { desenhaFotos(); recado(ok === 1 ? 'Foto enviada.' : ok + ' fotos enviadas.', 'ok'); }
+  });
+
+  /* ---------- carregar ---------- */
+  async function carregar(sessao) {
+    $('#quem').textContent = sessao.user.email;
+    $('#sair').hidden = false;
+
+    const r = await sb.from('sites').select('*').limit(1).maybeSingle();
+    if (r.error) { falhou(r.error, 'carregar o site'); return; }
+    if (!r.data) {
+      $('#carregando').textContent = 'Nenhum site ligado a esta conta. Fale com quem cuida do seu site.';
+      return;
+    }
+    site = r.data;
+
+    const [s, h, t, f] = await Promise.all([
+      sb.from('site_servicos').select('*').eq('site_id', site.id).order('ordem'),
+      sb.from('site_horarios').select('*').eq('site_id', site.id).order('dia_semana'),
+      sb.from('site_textos').select('*').eq('site_id', site.id).order('chave'),
+      sb.from('site_fotos').select('*').eq('site_id', site.id).order('ordem')
+    ]);
+    const erro = [s, h, t, f].find((x) => x.error);
+    if (erro) { falhou(erro.error, 'carregar os dados'); return; }
+
+    servicos = s.data || []; horarios = h.data || []; textos = t.data || []; fotos = f.data || [];
+    desenhaServicos(); desenhaHorarios(); desenhaTextos(); desenhaFotos();
+
+    $('#carregando').hidden = true;
+    $('#tela-painel').hidden = false;
+  }
+
+  async function iniciar() {
+    const { data } = await sb.auth.getSession();
+    if (data.session) { await carregar(data.session); }
+    else { $('#carregando').hidden = true; $('#tela-entrar').hidden = false; }
+  }
+
+  sb.auth.onAuthStateChange((evento, sessao) => {
+    if (evento === 'SIGNED_IN' && sessao && $('#tela-painel').hidden) {
+      $('#tela-entrar').hidden = true;
+      $('#carregando').hidden = false;
+      carregar(sessao);
+    }
+  });
+
+  iniciar();
+})();
+</script>
+</body>
+</html>
